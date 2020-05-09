@@ -1,1 +1,15 @@
 app/config/local.neon
+vendor/
+node_modules/
+composer.phar
+composer.lock
+config.codekit3
+build/
+.htaccess
+package-lock.json
+temp/
+log/
+www/css/build/
+www/css/config.codekit3
+www/css/admin/.sass-cache
+www/css/default/.sass-cache
