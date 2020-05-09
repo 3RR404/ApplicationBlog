@@ -1,0 +1,64 @@
+{block content}
+<article id="post-{$post->id}" class="post">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-1 col-md-10 col-12">
+                <div class="back-to-link">
+                    <a n:href="Base:default">← späť na výpis príspevkov</a>
+                </div>
+            </div>
+
+            <div class="offset-md-1 col-md-10 col-12 mt-3">
+                <div class="post-heading">
+                    <div class="post-meta">
+                        <div class="post-date">{$post->created_at|date:'F j, Y'}</div>
+                    </div>
+                    <h1 n:block="title" class="post-title">{$post->title}</h1>
+                </div>
+                <div class="post-content">
+                    {$post->content|noescape}
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+{if $user->isAllowed('comment', 'view')}
+<section id="comments" class="pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-md-8 col-12">
+                <div class="comments-wrapper">
+                    <h2 class="comments-title">Komentáre</h2>
+                    <div class="comments">
+                        {foreach $comments as $comment}
+                            <div class="comment-header">
+                                <strong>
+                                    <a href="mailto:{$comment->email}" n:tag-if="$comment->email">{$comment->name}</a>
+                                </strong> napísal:
+                            </div>
+                            <div class="comment-content">
+                                {$comment->content}
+                            </div>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-3 mb-3">
+                <hr>
+            </div>
+            <div class="offset-md-2 col-md-8 col-12">
+                <h3>Nový komentár</h3>
+                {if $user->loggedIn && $user->isAllowed('comment', 'add')}
+                    {control commentForm}
+                {elseif !$user->loggedIn}
+                    Pre pridanie komentára je nutné <a n:href="Sign:in">prihlásiť sa</a>.
+                {else}
+                    Na pridávanie komentárov nemáte dostatočné oprávnenia.
+                {/if}
+            </div>
+        </div>
+    </div>
+</section>
+{/if}
+{/block}

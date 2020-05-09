@@ -1,0 +1,27 @@
+parameters:
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+
+
+services:
+	router: App\Router\RouterFactory::createRouter
+	- App\Forms\FormFactory
+	- App\Forms\CommentFormFactory
+	- App\Model\AuthorizatorFactory::create
+	- App\Model\ArticleManager
+	- App\Model\NavigationModel
+	navigationFactory:
+		implement: App\Components\INavigationControlFactory
+	authenticator: App\MyAuthenticator
+
+#security:
+#    users:
+#        admin: secret  # user 'admin', password 'secret'

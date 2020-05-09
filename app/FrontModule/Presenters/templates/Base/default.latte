@@ -1,0 +1,59 @@
+{block content}
+<section id="homepage">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-heading">
+                    <h1 n:block="title" class="section-title">Blog</h1>
+                </div>
+            </div>
+            
+            {*}<div class="col-12">
+                {if $user->loggedIn && $user->isAllowed('article', 'create')}
+                    <a n:href="Post:create" n:if="$user->loggedIn">Pridať nový</a>
+                {/if}
+            </div>{*}
+
+            {foreach $posts as $post}
+            <div class="col-md-4 col-12 mb-5">
+                <article id="{$post->id}" class="post">
+                    <h2 class="post-title">
+                        <a n:href="Post:show $post->id">
+                            {$post->title}
+                        </a>
+                    </h2>
+                    <div class="post-date">
+                        <small>{$post->created_at|date:'F j, Y'}</small>
+                    </div>
+                    <div class="post-content">
+                        {$post->content|truncate:120|noescape}
+                    </div>
+                </article>
+            </div>
+            {/foreach}
+            
+        </div>
+
+        <div class="row">
+            <div class="pagination col-12">
+                {if !$paginator->isFirst()}
+                    <a n:href="default, 1">První</a>
+                    &nbsp;|&nbsp;
+                    <a n:href="default, $paginator->page-1">Předchozí</a>
+                    &nbsp;|&nbsp;
+                {/if}
+            
+                Stránka {$paginator->page} z {$paginator->pageCount}
+            
+                {if !$paginator->isLast()}
+                    &nbsp;|&nbsp;
+                    <a n:href="default, $paginator->page+1">Další</a>
+                    &nbsp;|&nbsp;
+                    <a n:href="default, $paginator->pageCount">Poslední</a>
+                {/if}
+            </div>
+        </div>
+    </div>
+</section>
+
+{/block}

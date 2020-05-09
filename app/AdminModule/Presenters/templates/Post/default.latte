@@ -1,0 +1,45 @@
+{block title}
+    Články
+{/block}
+{block content}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            {if $user->loggedIn && $user->isAllowed('article', 'create')}
+                <a n:href="Post:create" n:if="$user->loggedIn" class="btn btn-default btn-primary">Pridať nový</a>
+            {/if}
+        </div>
+
+        <div class="col-12 mt-3">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th width="40">#</th>
+                        <th>Name</th>
+                        <th width="75">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach $posts as $article}
+                        <tr>
+                            <td scope="row">
+                                {$article->id}
+                            </td>
+                            <td>
+                                {$article->title}
+                            </td>
+                            <td>
+                                {if $user->loggedIn && $user->isAllowed('article', 'edit')}
+                                    <small><a n:href="edit $article->id" class="btn btn-success btn-xs">Upraviť</a></small>
+                                {/if}
+                            </td>
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
